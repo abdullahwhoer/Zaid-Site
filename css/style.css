@@ -1562,8 +1562,8 @@ section {
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     flex-direction: column;
-    padding: 24px;
-    gap: 4px;
+    padding: 26px 24px;
+    gap: 30px;
     border-bottom: 1px solid var(--border);
     max-height: calc(100dvh - var(--nav-height));
     overflow-y: auto;
@@ -1582,7 +1582,7 @@ section {
     pointer-events: auto;
   }
 
-  .nav-link { padding: 12px 20px; border-radius: var(--radius-sm); width: 100%; }
+  .nav-link { padding: 14px 22px; border-radius: var(--radius-sm); width: 100%; }
   .hamburger { display: flex; }
 }
 

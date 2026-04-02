@@ -65,29 +65,61 @@ const navbar = document.getElementById('navbar');
 const hamburger = document.getElementById('hamburger');
 const navLinks = document.getElementById('navLinks');
 const navLinkItems = document.querySelectorAll('.nav-link');
+const MOBILE_NAV_BREAKPOINT = 900;
+
+function isMobileViewport() {
+  return window.innerWidth <= MOBILE_NAV_BREAKPOINT;
+}
+
+function setMobileMenuOpen(isOpen) {
+  if (!hamburger || !navLinks) return;
+  hamburger.classList.toggle('open', isOpen);
+  navLinks.classList.toggle('open', isOpen);
+  hamburger.setAttribute('aria-expanded', String(isOpen));
+  document.body.classList.toggle('nav-open', isOpen);
+}
 
 // Sticky on scroll
 window.addEventListener('scroll', () => {
-  if (window.scrollY > 20) {
+  if (navbar && window.scrollY > 20) {
     navbar.classList.add('scrolled');
-  } else {
+  } else if (navbar) {
     navbar.classList.remove('scrolled');
   }
   updateActiveNavLink();
 }, { passive: true });
 
 // Hamburger toggle
-hamburger.addEventListener('click', () => {
-  hamburger.classList.toggle('open');
-  navLinks.classList.toggle('open');
-});
+if (hamburger && navLinks) {
+  hamburger.addEventListener('click', () => {
+    const shouldOpen = !navLinks.classList.contains('open');
+    setMobileMenuOpen(shouldOpen);
+  });
+}
 
 // Close mobile menu on link click
 navLinkItems.forEach(link => {
   link.addEventListener('click', () => {
-    hamburger.classList.remove('open');
-    navLinks.classList.remove('open');
+    setMobileMenuOpen(false);
   });
+});
+
+// Close mobile menu when tapping outside nav
+document.addEventListener('click', (event) => {
+  if (!isMobileViewport() || !navbar || !navLinks || !hamburger) return;
+  if (!navLinks.classList.contains('open')) return;
+  if (navbar.contains(event.target)) return;
+  setMobileMenuOpen(false);
+});
+
+// Keep menu state correct across viewport changes
+window.addEventListener('resize', () => {
+  if (!isMobileViewport()) setMobileMenuOpen(false);
+});
+
+// Close menu on Escape
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') setMobileMenuOpen(false);
 });
 
 /* Active nav link on scroll */
@@ -110,6 +142,7 @@ function updateActiveNavLink() {
     }
   });
 }
+updateActiveNavLink();
 
 /* Smooth scroll for nav links */
 document.querySelectorAll('a[href^="#"]').forEach(link => {
@@ -132,9 +165,14 @@ AOS.init({
 });
 
 /* ======================== GSAP SCROLL TRIGGERS ======================== */
-gsap.registerPlugin(ScrollTrigger);
+const hasGsap = typeof window.gsap !== 'undefined' && typeof window.ScrollTrigger !== 'undefined';
+
+if (hasGsap) {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 function initHeroAnimations() {
+  if (!hasGsap) return;
   // Hero content - stagger entrance
   const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
   heroTl
@@ -556,17 +594,19 @@ contactForm.addEventListener('submit', async (e) => {
 });
 
 /* ======================== GSAP — FOOTER REVEAL ======================== */
-gsap.from('.footer-brand, .footer-links, .footer-services', {
-  scrollTrigger: {
-    trigger: '.footer',
-    start: 'top 85%',
-  },
-  y: 40,
-  opacity: 0,
-  stagger: 0.15,
-  duration: 0.8,
-  ease: 'power3.out',
-});
+if (hasGsap) {
+  gsap.from('.footer-brand, .footer-links, .footer-services', {
+    scrollTrigger: {
+      trigger: '.footer',
+      start: 'top 85%',
+    },
+    y: 40,
+    opacity: 0,
+    stagger: 0.15,
+    duration: 0.8,
+    ease: 'power3.out',
+  });
+}
 
 /* ======================== SCROLL PROGRESS BAR ======================== */
 const progressBar = document.createElement('div');

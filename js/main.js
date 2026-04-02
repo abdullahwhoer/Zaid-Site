@@ -237,6 +237,8 @@ statNumbers.forEach(el => {
 const testiTrack = document.getElementById('testiTrack');
 const testiSlides = Array.from(document.querySelectorAll('.testi-card'));
 const testiDotsContainer = document.getElementById('testiDots');
+const testiPrevBtn = document.getElementById('testiPrev');
+const testiNextBtn = document.getElementById('testiNext');
 
 let currentTesti = 0;
 let testiTimer = null;
@@ -290,6 +292,12 @@ function nextTesti() {
   goTesti(currentTesti >= testiGroups - 1 ? 0 : currentTesti + 1);
 }
 
+function prevTesti() {
+  testiPerView = getTestiPerView();
+  testiGroups = Math.ceil(testiSlides.length / testiPerView);
+  goTesti(currentTesti <= 0 ? testiGroups - 1 : currentTesti - 1);
+}
+
 function startTestiAutoplay() {
   if (testiTimer) clearInterval(testiTimer);
   testiTimer = setInterval(nextTesti, 5000);
@@ -304,6 +312,20 @@ if (testiSlides.length > 0) {
   if (wrapper) {
     wrapper.addEventListener('mouseenter', () => clearInterval(testiTimer));
     wrapper.addEventListener('mouseleave', startTestiAutoplay);
+  }
+
+  if (testiPrevBtn) {
+    testiPrevBtn.addEventListener('click', () => {
+      prevTesti();
+      startTestiAutoplay();
+    });
+  }
+
+  if (testiNextBtn) {
+    testiNextBtn.addEventListener('click', () => {
+      nextTesti();
+      startTestiAutoplay();
+    });
   }
 }
 
@@ -441,6 +463,14 @@ let resizeTimer;
 window.addEventListener('resize', () => {
   clearTimeout(resizeTimer);
   resizeTimer = setTimeout(() => {
+    if (testiSlides.length > 0) {
+      testiPerView = getTestiPerView();
+      testiGroups = Math.ceil(testiSlides.length / testiPerView);
+      currentTesti = Math.min(currentTesti, testiGroups - 1);
+      buildTestiDots();
+      goTesti(currentTesti);
+    }
+
     slidesPerView = getSlidesPerView();
     buildDots();
     // Maintain relative position or reset to 0

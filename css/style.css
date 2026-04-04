@@ -459,20 +459,49 @@ section {
   justify-content: center;
   align-items: center;
   position: relative;
+  padding: 20px;
 }
 
 .hero-image-wrapper {
   position: relative;
-  width: 100%;
-  max-width: 500px;
+  width: min(78vw, 430px);
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  border: 4px solid #fff;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 50% 36%, rgba(124, 77, 255, 0.35) 0%, rgba(124, 77, 255, 0.08) 42%, rgba(13, 13, 26, 0.95) 100%),
+    radial-gradient(circle at 72% 18%, rgba(79, 142, 247, 0.32) 0%, rgba(79, 142, 247, 0) 42%),
+    var(--bg-secondary);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.12),
+    0 0 26px rgba(79, 142, 247, 0.42),
+    0 0 70px rgba(124, 77, 255, 0.32);
+}
+
+.hero-image-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% -20%, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0) 55%);
+  pointer-events: none;
+  z-index: 2;
 }
 
 .profile-img {
-  width: 100%;
-  height: auto;
+  width: 88%;
+  height: 96%;
   object-fit: contain;
+  object-position: center bottom;
   position: relative;
   z-index: 1;
+  filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.35));
+  transform: scale(1.04);
+  transform-origin: center bottom;
 }
 
 .hero-badge {
@@ -1568,7 +1597,7 @@ section {
 @media (max-width: 1024px) {
   .hero-container { grid-template-columns: 1fr; text-align: center; gap: 40px; }
   .hero-image { order: -1; }
-  .hero-image-wrapper { width: 320px; height: 400px; }
+  .hero-image-wrapper { width: min(62vw, 360px); }
   .hero-buttons { justify-content: center; }
   .hero-social { justify-content: center; }
   .hero-description { margin: 0 auto 36px; }
@@ -1634,7 +1663,10 @@ section {
   .carousel-slide { flex: 0 0 calc(100% - 16px); }
   .carousel-wrapper { padding: 0 18px; }
   .contact-form { padding: 24px; }
-  .hero-image-wrapper { width: 260px; height: 320px; }
+  .hero-image-wrapper {
+    width: min(72vw, 300px);
+    border-width: 3px;
+  }
   .carousel-btn { width: 42px; height: 42px; }
 
   .cursor, .cursor-follower { display: none; }
@@ -1644,6 +1676,7 @@ section {
   .container { padding: 0 18px; }
   .hero-buttons { flex-direction: column; align-items: center; }
   .btn { width: 100%; justify-content: center; }
+  .hero-image-wrapper { width: min(82vw, 260px); }
   .trust-badges { flex-direction: column; align-items: center; }
   .trust-badge { width: 100%; max-width: 260px; justify-content: center; }
   .stats-grid { grid-template-columns: 1fr 1fr; gap: 12px; }

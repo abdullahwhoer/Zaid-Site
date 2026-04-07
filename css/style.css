@@ -460,6 +460,13 @@ section {
   align-items: center;
   position: relative;
   padding: 20px;
+  margin-bottom: 90px;
+  transition: all 0.3s ease;
+}
+
+.hero-image:hover {
+  scale: 1.1;
+  
 }
 
 .hero-image-wrapper {
@@ -1654,7 +1661,7 @@ section {
 @media (max-width: 768px) {
   section { padding: 70px 0; }
   html { font-size: 15px; }
-
+  .hero-image {margin-bottom: 0px;}
   .services-grid { grid-template-columns: 1fr; }
   .skills-grid { grid-template-columns: repeat(2, 1fr); }
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1673,6 +1680,7 @@ section {
 }
 
 @media (max-width: 480px) {
+  .hero-image {margin-bottom: 0px;}
   .container { padding: 0 18px; }
   .hero-buttons { flex-direction: column; align-items: center; }
   .btn { width: 100%; justify-content: center; }

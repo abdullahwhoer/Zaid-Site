@@ -461,7 +461,7 @@ section {
   position: relative;
   padding: 20px;
   margin-bottom: 90px;
-  transition: all 0.3s ease;
+  transition: all 2s ease;
 }
 
 .hero-image:hover {
